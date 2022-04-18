@@ -9,7 +9,6 @@ import (
 type ArtistService interface {
 	Create(request dto.ArtistRequest) (entity.Artist, error)
 	Update(id int, request dto.ArtistRequest) (entity.Artist, error)
-	FindByEmail(email string) (entity.Artist, error)
 	FindById(id int) (entity.Artist, error)
 }
 
@@ -23,11 +22,6 @@ func NewArtistService(repository repository.ArtistRepository) *artistService {
 
 func (s *artistService) FindById(id int) (entity.Artist, error) {
 	artist, err := s.repository.FindById(id)
-	return artist, err
-}
-
-func (s *artistService) FindByEmail(email string) (entity.Artist, error) {
-	artist, err := s.repository.FindByEmail(email)
 	return artist, err
 }
 

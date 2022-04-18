@@ -10,7 +10,6 @@ import (
 type ArtistRepository interface {
 	Create(artist entity.Artist) (entity.Artist, error)
 	Update(user entity.Artist) (entity.Artist, error)
-	FindByEmail(email string) (entity.Artist, error)
 	FindById(id int) (entity.Artist, error)
 }
 
@@ -38,12 +37,6 @@ func (r *artistRepository) Update(artist entity.Artist) (entity.Artist, error) {
 	}
 
 	err := r.db.Save(&artist).Error
-	return artist, err
-}
-
-func (r *artistRepository) FindByEmail(email string) (entity.Artist, error) {
-	var artist entity.Artist
-	err := r.db.Where("email = ?", email).Take(&artist).Error
 	return artist, err
 }
 

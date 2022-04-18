@@ -3,7 +3,6 @@ package service
 import (
 	"crud-gin-gorm/dto"
 	"crud-gin-gorm/entity"
-	"crud-gin-gorm/helper"
 	"crud-gin-gorm/repository"
 
 	"github.com/mashingan/smapping"
@@ -42,7 +41,6 @@ func (s *albumService) Create(request dto.AlbumRequest) (entity.Album, error) {
 		return album, err
 	}
 
-	album.Artist.Password = helper.HashAndSalt([]byte(request.Artist.Password))
 	newAlbum, err := s.repository.Create(album)
 	return newAlbum, err
 }
@@ -53,10 +51,11 @@ func (s *albumService) Update(id int, request dto.AlbumRequest) (entity.Album, e
 		return album, err
 	}
 
-	album.Title = request.Title
-	album.Year = request.Year
-	album.Price = request.Price
-
+	err = smapping.FillStruct(&album, smapping.MapFields(&request))
+	if err != nil {
+		return album, err
+	}
+	
 	updatedAlbum, err := s.repository.Update(album)
 	return updatedAlbum, err
 }

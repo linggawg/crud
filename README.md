@@ -1,1 +1,1 @@
-# Basic CRUD with Gin framework
+CRUD with Gin framework
